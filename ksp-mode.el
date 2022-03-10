@@ -480,12 +480,15 @@
     "pgs_changed" "poly_at" "property" "release" "rpn" "select"
     "step" "taskfunc" "to" "ui_control" "ui_update" "var" "while"))
 
-(defvar ksp-keywords-regexp (regexp-opt ksp-keywords 'words))
-(defvar ksp-functions-regexp (regexp-opt ksp-functions 'words))
-(defvar ksp-variables-regexp (regexp-opt ksp-variables 'words))
+(defvar ksp-keywords-regexp (regexp-opt ksp-keywords 'symbols))
+(defvar ksp-functions-regexp (regexp-opt ksp-functions 'symbols))
+(defvar ksp-variables-regexp (regexp-opt ksp-variables 'symbols))
 
 (defconst ksp-user-functions-regexp
   "function \\([^ ]*\\)")
+
+(defconst ksp-user-macro-regexp
+  "macro \\([^ ]*\\)")
 
 (defvar ksp-hex-regexp
   "\\<\\0x[0-9a-fA-F_]+\\(\\.[0-9a-fA-F_]+\\)?\\([eE][0-9a-fA-F]+\\)?\\(\'\\(i8\\|i16\\|i32\\|i64\\|f32\\|f64\\)\\)?\\>")
@@ -497,7 +500,8 @@
   `((,ksp-keywords-regexp . font-lock-keyword-face)
     (,ksp-functions-regexp . font-lock-function-name-face)
     (,ksp-variables-regexp . font-lock-type-face)
-    (,ksp-user-functions-regexp . font-lock-function-name-face)
+    (,ksp-user-functions-regexp 1 'font-lock-function-name-face)
+    (,ksp-user-macro-regexp 1 'font-lock-function-name-face)
     (,ksp-hex-regexp . font-lock-constant-face)
     (,ksp-decimal-regexp . font-lock-constant-face)))
 
