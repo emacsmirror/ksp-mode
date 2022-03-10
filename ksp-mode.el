@@ -485,9 +485,9 @@
   (regexp-opt keywords 'symbols))
 
 (defvar ksp-font-lock-keywords
-  `((,(ksp-regexp-opt ksp-functions) . font-lock-builtin-face)
+  `((,(ksp-regexp-opt ksp-functions) . font-lock-function-name-face)
     (,(ksp-regexp-opt ksp-keywords)  . font-lock-keyword-face)
-    (,(ksp-regexp-opt ksp-variables) . font-lock-variable-name-face)))
+    (,(ksp-regexp-opt ksp-variables) . font-lock-type-face)))
 
 (defvar ksp-mode-map (make-sparse-keymap)
   "Keymap for ksp-mode.")
