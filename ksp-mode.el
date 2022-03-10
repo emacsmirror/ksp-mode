@@ -408,8 +408,8 @@
     "abs" "acos" "add_menu_item" "add_text_line" "allow_group" "array_equal"
     "asin" "atan" "attach_level_meter" "attach_zone" "by_marks" "by_track"
     "cc_delivery_request" "ceil" "change_listener_par" "change_note" "change_pan"
-    "change_time_with_pitch" "change_tune" "change_velo" "change_vol" "cos" "dec"
-    "delay_event_for_loading_slots" "delete_event_mark" "detect_pitch"
+    "change_time_with_pitch" "change_tune" "change_velo" "change_vol" "cos" "concat"
+    "dec" "delay_event_for_loading_slots" "delete_event_mark" "detect_pitch"
     "detect_rms" "detect_peak" "detect_loudness" "detect_sample_type"
     "detect_instrument_type" "detect_drum_type" "disable_logging" "disallow_group"
     "dont_use_machine_mode" "event_status" "exit" "exp" "fade_in" "fade_out"
@@ -470,7 +470,7 @@
 
 (defconst ksp-keywords
   '("_pgs_changed" "and" "as" "call" "case" "const" "controller" "declare"
-    "downto" "else" "end" "end family" "end for" "end function" "end if"
+    "define" "downto" "else" "end" "end family" "end for" "end function" "end if"
     "end macro" "end on" "end_on" "end property" "end select" "end taskfunc"
     "end while" "family" "for" "function" "if" "import" "init" "macro"
     "midi_in" "not" "note" "nrpn" "on" "on async_complete" "on controller"
@@ -480,14 +480,26 @@
     "pgs_changed" "poly_at" "property" "release" "rpn" "select"
     "step" "taskfunc" "to" "ui_control" "ui_update" "var" "while"))
 
-(defun ksp-regexp-opt (keywords)
-  "Make an optimized regexp from the list of KEYWORDS."
-  (regexp-opt keywords 'symbols))
+(defvar ksp-keywords-regexp (regexp-opt ksp-keywords 'words))
+(defvar ksp-functions-regexp (regexp-opt ksp-functions 'words))
+(defvar ksp-variables-regexp (regexp-opt ksp-variables 'words))
+
+(defconst ksp-user-functions-regexp
+  "function \\([^ ]*\\)")
+
+(defvar ksp-hex-regexp
+  "\\<\\0x[0-9a-fA-F_]+\\(\\.[0-9a-fA-F_]+\\)?\\([eE][0-9a-fA-F]+\\)?\\(\'\\(i8\\|i16\\|i32\\|i64\\|f32\\|f64\\)\\)?\\>")
+
+(defvar ksp-decimal-regexp
+  "\\<[0-9_]+\\(\\.[0-9_]+\\)?\\([eE][0-9]+\\)?\\(\'\\(i8\\|i16\\|i32\\|i64\\|f32\\|f64\\)\\)?\\>")
 
 (defvar ksp-font-lock-keywords
-  `((,(ksp-regexp-opt ksp-functions) . font-lock-function-name-face)
-    (,(ksp-regexp-opt ksp-keywords)  . font-lock-keyword-face)
-    (,(ksp-regexp-opt ksp-variables) . font-lock-type-face)))
+  `((,ksp-keywords-regexp . font-lock-keyword-face)
+    (,ksp-functions-regexp . font-lock-function-name-face)
+    (,ksp-variables-regexp . font-lock-type-face)
+    (,ksp-user-functions-regexp . font-lock-function-name-face)
+    (,ksp-hex-regexp . font-lock-constant-face)
+    (,ksp-decimal-regexp . font-lock-constant-face)))
 
 (defvar ksp-mode-map (make-sparse-keymap)
   "Keymap for ksp-mode.")
