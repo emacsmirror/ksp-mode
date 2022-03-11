@@ -477,8 +477,9 @@
     "on init" "on listener" "on midi_in" "on note" "on nrpn"
     "on persistence_changed" "on pgs_changed" "on_pgs_changed" "on poly_at"
     "on release" "on rpn" "on ui_control" "on ui_update" "or" "out" "override"
-    "pgs_changed" "poly_at" "property" "release" "rpn" "select"
-    "step" "taskfunc" "to" "ui_control" "ui_update" "var" "while"))
+    "pgs_changed" "poly_at" "property" "release" "rpn" "select" "step" "struct"
+    "taskfunc" "to" "ui_control" "ui_update" "ui_label" "ui_button" "ui_slider"
+    "ui_knob" "ui_table" "ui_waveform" "var" "while"))
 
 (defvar ksp-keywords-regexp (regexp-opt ksp-keywords 'symbols))
 (defvar ksp-functions-regexp (regexp-opt ksp-functions 'symbols))
