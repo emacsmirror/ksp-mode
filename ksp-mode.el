@@ -473,11 +473,11 @@
     "define" "downto" "else" "end" "end family" "end for" "end function" "end if"
     "end macro" "end on" "end_on" "end property" "end select" "end taskfunc"
     "end while" "family" "for" "function" "if" "import" "init" "macro"
-    "midi_in" "not" "note" "nrpn" "on" "on async_complete" "on controller"
+    "midi_in" "not" "nrpn" "on" "on async_complete" "on controller"
     "on init" "on listener" "on midi_in" "on note" "on nrpn"
     "on persistence_changed" "on pgs_changed" "on_pgs_changed" "on poly_at"
     "on release" "on rpn" "on ui_control" "on ui_update" "or" "out" "override"
-    "pgs_changed" "poly_at" "property" "release" "rpn" "select" "step" "struct"
+    "pgs_changed" "poly_at" "property" "rpn" "select" "step" "struct"
     "taskfunc" "to" "ui_control" "ui_update" "ui_label" "ui_button" "ui_slider"
     "ui_knob" "ui_table" "ui_waveform" "var" "while"))
 
@@ -485,11 +485,8 @@
 (defvar ksp-functions-regexp (regexp-opt ksp-functions 'symbols))
 (defvar ksp-variables-regexp (regexp-opt ksp-variables 'symbols))
 
-(defconst ksp-user-functions-regexp
-  "function \\([^ ]*\\)")
-
-(defconst ksp-user-macro-regexp
-  "macro \\([^ ]*\\)")
+(defconst ksp-type-regexp
+  "\\(?:<[[:space:]]*’[[:word:][:multibyte:]_][[:word:][:multibyte:]_[:digit:]]*[[:space:]]*>\\)?[[:space:]]+\\([[:word:][:multibyte:]_][[:word:][:multibyte:]_[:digit:]]*\\)")
 
 (defvar ksp-hex-regexp
   "\\<\\0x[0-9a-fA-F_]+\\(\\.[0-9a-fA-F_]+\\)?\\([eE][0-9a-fA-F]+\\)?\\(\'\\(i8\\|i16\\|i32\\|i64\\|f32\\|f64\\)\\)?\\>")
@@ -497,14 +494,22 @@
 (defvar ksp-decimal-regexp
   "\\<[0-9_]+\\(\\.[0-9_]+\\)?\\([eE][0-9]+\\)?\\(\'\\(i8\\|i16\\|i32\\|i64\\|f32\\|f64\\)\\)?\\>")
 
+(defun ksp-re-item-def (type)
+  (concat "\\<" type "\\>" ksp-type-regexp))
+
 (defvar ksp-font-lock-keywords
-  `((,ksp-keywords-regexp . font-lock-keyword-face)
-    (,ksp-functions-regexp . font-lock-function-name-face)
-    (,ksp-variables-regexp . font-lock-type-face)
-    (,ksp-user-functions-regexp 1 'font-lock-function-name-face)
-    (,ksp-user-macro-regexp 1 'font-lock-function-name-face)
-    (,ksp-hex-regexp . font-lock-constant-face)
-    (,ksp-decimal-regexp . font-lock-constant-face)))
+  (append
+   `((,ksp-keywords-regexp . font-lock-keyword-face)
+     (,ksp-functions-regexp . font-lock-function-name-face)
+     (,ksp-variables-regexp . font-lock-type-face)
+     (,ksp-hex-regexp . font-lock-constant-face)
+     (,ksp-decimal-regexp . font-lock-constant-face))
+   (mapcar #'(lambda (x)
+               (list (ksp-re-item-def (car x))
+                     1 (cdr x)))
+           '(("function" . font-lock-function-name-face)
+             ("macro" . font-lock-function-name-face)
+             ("family" . font-lock-function-name-face)))))
 
 (defvar ksp-mode-map (make-sparse-keymap)
   "Keymap for ksp-mode.")
