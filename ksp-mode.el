@@ -12,14 +12,16 @@
 
 ;;; Code:
 
-(defgroup ksp-mode nil
+(defgroup ksp nil
   "ksp mode customizations"
-  :group 'ksp)
+  :group 'languages)
 
 (defvar ksp-mode-syntax-table
   (let ((table (make-syntax-table)))
     (modify-syntax-entry ?/ ". 124b" table)
     (modify-syntax-entry ?\n "> b" table)
+    (modify-syntax-entry ?{ "<" table)
+    (modify-syntax-entry ?} ">" table)
     table)
   "Syntax table for ksp-mode.")
 
@@ -517,7 +519,7 @@
 ;;;###autoload
 (define-derived-mode ksp-mode prog-mode "KSP"
   "Major mode for editing ksp files"
-  :group 'ksp-mode
+  :group 'ksp
   :syntax-table ksp-mode-syntax-table
 
   (setq-local indent-tabs-mode nil)
