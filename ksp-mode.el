@@ -516,18 +516,23 @@
 (defvar ksp-mode-map (make-sparse-keymap)
   "Keymap for ksp-mode.")
 
+(defvar ksp-imenu-generic-expression
+  '(("function" "^function *\\(.*\\)" 1)
+    ("macro"    "^macro *\\(.*\\)" 1)
+    ("on"       "^on *\\(.*\\)" 1)))
+
 ;;;###autoload
 (define-derived-mode ksp-mode prog-mode "KSP"
   "Major mode for editing ksp files"
   :group 'ksp
   :syntax-table ksp-mode-syntax-table
-
-  (setq-local indent-tabs-mode nil)
-  (setq-local tab-width 4)
-  (setq-local comment-start "// ")
   (setq-local comment-end "")
+  (setq-local comment-start "// ")
   (setq-local comment-start-skip "// *")
-  (setq-local font-lock-defaults '(ksp-font-lock-keywords)))
+  (setq-local font-lock-defaults '(ksp-font-lock-keywords))
+  (setq-local imenu-generic-expression ksp-imenu-generic-expression)
+  (setq-local indent-tabs-mode nil)
+  (setq-local tab-width 4))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.ksp\\'" . ksp-mode))
