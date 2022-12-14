@@ -1,10 +1,12 @@
-;;; ksp-mode.el --- Major mode for editing .ksp files -*- lexical-binding: t -*-
+;;; ksp-mode.el --- Major mode for editing ksp files -*- lexical-binding: t -*-
+
+;; Copyright (C) 2022 Youngjoo Lee
 
 ;; Maintainer: YoungJoo Lee <youngker@gmail.com>
-;; Homepage: https://github.com/youngker/ksp-mode.el
-;; Version: 0.0.1
+;; URL: https://github.com/youngker/ksp-mode.el
+;; Version: 0.1
 ;; Keywords: ksp, languages
-;; Package-Requires: ((emacs "25.1"))
+;; Package-Requires: ((emacs "27.1"))
 
 ;;; Commentary:
 
@@ -13,7 +15,7 @@
 ;;; Code:
 
 (defgroup ksp nil
-  "ksp mode customizations"
+  "Ksp mode customizations."
   :group 'languages)
 
 (defvar ksp-mode-syntax-table
@@ -497,6 +499,7 @@
   "\\<[0-9_]+\\(\\.[0-9_]+\\)?\\([eE][0-9]+\\)?\\(\'\\(i8\\|i16\\|i32\\|i64\\|f32\\|f64\\)\\)?\\>")
 
 (defun ksp-re-item-def (type)
+  "Re-item-def with TYPE."
   (concat "\\<" type "\\>" ksp-type-regexp))
 
 (defvar ksp-font-lock-keywords
@@ -523,7 +526,7 @@
 
 ;;;###autoload
 (define-derived-mode ksp-mode prog-mode "KSP"
-  "Major mode for editing ksp files"
+  "Major mode for editing ksp files."
   :group 'ksp
   :syntax-table ksp-mode-syntax-table
   (setq-local comment-end "")
